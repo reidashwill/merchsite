@@ -8,7 +8,7 @@ function ProductInCart(props){
       <h3>{props.name}</h3>
       <h4>{props.price}</h4>
       <h4>{props.quantity}</h4>
-      <button type="submit">Delete from cart</button>
+      {/* <button onClick={this.handleClick}>Delete from cart</button> */}
       <hr />
     </>
   );

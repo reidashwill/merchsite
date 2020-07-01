@@ -10,15 +10,25 @@ class ProductControl extends React.Component {
     };
   }
 
+  handleClick = () => {
+    this.setState(prevState => ({
+      ProductVisibleOnPage: !prevState.ProductVisibleOnPage
+    }));
+  }
+
   render(){
     let currentlyVisibleState = null;
+    let buttonText = null;
     if(this.state.ProductVisibleOnPage === true){
       currentlyVisibleState = <ProductList />
+      buttonText = "View Cart"
     } else {
       currentlyVisibleState = <ShoppingCart />
+      buttonText = "View Products"
     }
     return(
       <>
+        <button onClick={this.handleClick}>{buttonText}</button>
         {currentlyVisibleState}
       </>
     );
