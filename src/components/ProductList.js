@@ -1,5 +1,5 @@
 import React from "react";
-import Product from './Product'
+import ProductForSale from './ProductForSale'
 
 const availableProducts = [
   {
@@ -57,7 +57,7 @@ function ProductList() {
     <>
     <hr />
     {availableProducts.map((product, index) =>
-      <Product
+      <ProductForSale
         name = {product.name}
         price = {product.price} 
         type = {product.type}

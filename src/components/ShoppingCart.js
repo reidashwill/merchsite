@@ -1,5 +1,5 @@
 import React from 'react';
-import Product from './Product';
+import ProductInCart from './ProductInCart';
 
 const purchasedProducts = [
   {
@@ -58,7 +58,7 @@ function ShoppingCart() {
     <>
     <hr />
     {purchasedProducts.map((product, index) =>
-      <Product
+      <ProductInCart
         name = {product.name}
         price = {product.price} 
         type = {product.type}
@@ -70,3 +70,4 @@ function ShoppingCart() {
   );
 }
 
+export default ShoppingCart;
