@@ -8,13 +8,13 @@ function NewProductForm(props) {
     <>
       <ReusableForm
       formSubmissionHandler={handleNewProductFormSubmission}
-      buttonText={"Add a product to your cart."} />
+      buttonText={"Create Product"} />
     </>
   );
   
   function handleNewProductFormSubmission(event) {
     event.preventDefault();
-    props.onNewTicketCreation({
+    props.onNewProductCreation({
       name: event.target.name.value, 
       type: event.target.type.value, 
       price: event.target.price.value, 

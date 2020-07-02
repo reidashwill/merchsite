@@ -7,8 +7,6 @@ function ProductForSale(props){
       <h3>{props.name}</h3>
       <h4>{props.price}</h4>
       <h4>{props.quantity}</h4>
-      <h4>{props.id}</h4>
-      {/* <button onClick={this.handleClick}>Buy Now</button> */}
       <hr />
     </>
   );
