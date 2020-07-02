@@ -6,7 +6,8 @@ const purchasedProducts = [
     name: "Butter Rum",
     price: 5,
     type: "bev",
-    quantity: 0
+    quantity: 0,
+    // id: {v4}
   },
   {
     name: "Mead",
