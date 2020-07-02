@@ -1,14 +1,15 @@
 import React from 'react'
 import ProductList from './ProductList'
 import NewProductForm from './NewProductForm'
-import { v4 } from 'uuid'
+import ProductDetail from './ProductDetail'
 
 class ProductControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       formVisibleOnPage: false,
-      availableProducts: []
+      availableProducts: [],
+      selectedProduct: null
     };
   }
 
@@ -16,6 +17,11 @@ class ProductControl extends React.Component {
     this.setState(prevState => ({
       formVisibleOnPage: !prevState.formVisibleOnPage
     }));
+  }
+  
+  handleChangingSelectedProduct = (id) => {
+    const selectedProduct = this.state.availableProducts.filter(product => product.id === id)[0];
+    this.setState({selectedProduct: selectedProduct});
   }
 
   handleAddingNewProduct = (newProduct) => {
@@ -27,12 +33,15 @@ class ProductControl extends React.Component {
   render(){
     let currentlyVisibleState = null;
     let buttonText = null;
-    if(this.state.formVisibleOnPage){
-      currentlyVisibleState = <NewProductForm onNewProductCreation={this.handleAddingNewProduct}/>
-      buttonText = "Return to Products"
+    if(this.state.selectedProduct !=null){
+      currentlyVisibleState = <ProductDetail product = {this.state.selectedProduct}/>
+      buttonText="Return to Products"
+    } else if (this.state.formVisibleOnPage){
+      currentlyVisibleState = <NewProductForm onNewProductCreation={this.handleAddingNewProduct}/>;
+      buttonText = "Return to Products";
     } else {
-      currentlyVisibleState = <ProductList availableProducts = {this.state.availableProducts}/>
-      buttonText = "Add item"
+      currentlyVisibleState = <ProductList availableProducts = {this.state.availableProducts} onProductSelection={this.handleChangingSelectedProduct}/>;
+      buttonText = "Add item";
     }
     return(
       <>
