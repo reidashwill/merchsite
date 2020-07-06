@@ -3,13 +3,13 @@ import ProductList from './ProductList'
 import NewProductForm from './NewProductForm'
 import ProductDetail from './ProductDetail'
 import EditProductForm from './EditProductForm'
+import { connect } from 'react-redux';
 
 class ProductControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       formVisibleOnPage: false,
-      availableProducts: [],
       selectedProduct: null,
       editing: false
     };
@@ -34,31 +34,49 @@ class ProductControl extends React.Component {
   }
 
   handleDeletingProduct = (id) => {
-    const newProductList = this.state.availableProducts.filter(product => product.id !== id);
-    this.setState({
-      availableProducts: newProductList,
-      selectedProduct: null
-    });
+    const { dispatch } = this.props;
+    const action = {
+      type: 'DELETE_PRODUCT',
+      id: id
+    }
+    dispatch(action);
+    this.setState({selectedProduct: null});
   }
   
   handleEditingProductInList = (productToEdit) => {
-    const editedProductList = this.state.availableProducts.filter(product => product.id !== this.state.selectedProduct.id).concat(productToEdit);
+    const { dispatch } = this.props;
+    const { id, name, price, quantity } = productToEdit;
+    const action = {
+      type: 'ADD_PRODUCT',
+      id: id,
+      name: name,
+      price: price, 
+      quantity: quantity
+    }
+    dispatch(action);
     this.setState({
-      availableProducts: editedProductList,
       editing: false,
       selectedProduct: null
     });
   }
   
   handleChangingSelectedProduct = (id) => {
-    const selectedProduct = this.state.availableProducts.filter(product => product.id === id)[0];
+    const selectedProduct = this.props.masterProductsList[id];
     this.setState({selectedProduct: selectedProduct});
   }
 
   handleAddingNewProduct = (newProduct) => {
-    const newAvailableProducts = this.state.availableProducts.concat(newProduct);
-    this.setState({availableProducts: newAvailableProducts,
-                    formVisibleOnPage: false });
+    const { dispatch } = this.props;
+    const { id, name, price, quantity } = newProduct;
+    const action = {
+      type: "ADD_PRODUCT",
+      id: id,
+      name: name,
+      price: price,
+      quantity: quantity
+    }
+    dispatch(action);
+    this.setState({formVisibleOnPage: false});
   }
 
   render(){
@@ -74,7 +92,7 @@ class ProductControl extends React.Component {
       currentlyVisibleState = <NewProductForm onNewProductCreation={this.handleAddingNewProduct}/>;
       buttonText = "Return to Products";
     } else {
-      currentlyVisibleState = <ProductList availableProducts = {this.state.availableProducts} onProductSelection={this.handleChangingSelectedProduct}/>;
+      currentlyVisibleState = <ProductList productList = {this.props.masterProductsList} onProductSelection={this.handleChangingSelectedProduct}/>;
       buttonText = "Add item";
     }
     return(
@@ -85,5 +103,12 @@ class ProductControl extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return{
+    masterProductsList: state
+  }
+}
+ProductControl = connect(mapStateToProps)(ProductControl)
 
 export default ProductControl;
